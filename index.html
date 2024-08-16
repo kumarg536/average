@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Average Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 350px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ddd;
+        }
+
+        input {
+            width: 60%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        button {
+            width: 60%;
+            padding: 12px;
+            background-color: rgba(40, 167, 69, 0.8);
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: rgba(40, 167, 69, 1);
+            }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stock Average Calculator</h1>
+        <form id="stockForm" style="margin-left:39px;">
+            <label for="currentShares">Pehle ka total shares:</label>
+            <input type="number" id="currentShares" required>
+
+            <label for="currentSharesPri">Pehle ka per share price:</label>
+            <input type="number" id="currentSharesPri" required>
+
+            <label for="currentPrice">Avi ka share price:</label>
+            <input type="number" id="currentPrice" required>
+
+            <label for="targetAverage">Kitne tak average le jana hai:</label>
+            <input type="number" id="targetAverage" required>
+
+            <button type="button" onclick="calculateAdditionalShares()">Calculate</button>
+        </form>
+
+        <div id="result">
+            <!-- The result will be displayed here -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<script>
+    function calculateAdditionalShares() {
+        const noOfExistingShares = parseFloat(document.getElementById('currentShares').value);
+        const priceofExistingShare = parseFloat(document.getElementById('currentSharesPri').value);
+        const currentPrice = parseFloat(document.getElementById('currentPrice').value);
+        const targetAveragePrice = parseFloat(document.getElementById('targetAverage').value);
+
+        if (isNaN(noOfExistingShares) || isNaN(priceofExistingShare) || isNaN(currentPrice) || isNaN(targetAveragePrice))  {
+            alert("Please enter valid numbers in all fields.");
+            return;
+        }
+
+        // Number of additional shares needed
+        const additionalShares = (noOfExistingShares * (priceofExistingShare - targetAveragePrice)) / (targetAveragePrice - currentPrice);
+
+        console.log(additionalShares);
+
+        const resultDiv = document.getElementById('result');
+        if (additionalShares <= 0) {
+            resultDiv.innerHTML = "The target average price is not achievable by purchasing additional shares.";
+        } else {
+            resultDiv.innerHTML = `${Math.ceil(additionalShares)} additional shares <br> Amount: ${currentPrice * Math.ceil(additionalShares)}`;
+        }
+    }
+
+</script>
